@@ -1,0 +1,613 @@
+
+1. What is hoisting?
+A variable can be used before it has been declare call hoisting. Hoisting is a
+ default behaviour of javascript.Javscript declarations are hoisted. One of 
+ the use case of hoisting is we can use the functions before declaration. 
+Exp : abc()
+
+function abc(){
+	console.log(‘hello world’)
+}
+In case of variable it behaves same but a little different is there. That is if
+ we try to access variable before declaration we will get a special key call 
+ ‘undefined’. 
+
+
+ 
+
+
+
+
+
+2. What is scoping?
+Scop is something where can access any specific variable. There are two types 
+scope
+Global scope
+Local scope
+
+When we declare any variable in the global space. It basically accessible
+ by whole code, but when we declare any variable inside the local space it
+  just accessible by that particular scope, we can not access that local scope
+   variable outside the scope.
+
+
+
+
+
+
+
+
+
+3. How are var, let const different?
+Var :
+Before es6 declaration var declarations ruled. Var declaration is globally 
+scoped or function/locally scoped. If we declare any variable using var outside
+ a function then we can use that variable anywhere in our code. But it is 
+ locally scope for functions when we declare any variable using var inside a
+  function then that means we can access that variable inside that function
+   only. 
+
+Let :
+ Let is improvement of var in es6. Declaring a variable by using let it store
+  in different memory ( sript memory ) instead of global space unlike var. A 
+  variable declared with let only accessible in that scope.
+
+Const :
+ Const is similar of let but using const it becomes more strictly. Declare a 
+ variable using const we can’t change or manupulate that value of that variable
+  in any cost.
+
+
+
+
+
+
+
+
+4. What are the two main differences in arrow functions?
+ Arrow function was introduce in es6. Regular function and arrow function works similar way. By using arrow function we can reduce the line of code and make the code more readable. But there are some difference between them. 
+Syntax changes
+Unlike regular function in arrow function doesn’t have own ‘this’.
+
+example: 
+let camera = {
+    price:300,
+    color:"black",
+ 
+    printName1: function(){
+        console.log(this);
+    },
+    printName2 : ()=>{
+        console.log(this)
+    }
+}
+camera.printName1()
+camera.printName2()
+ 
+ 
+ 
+In printName1 it will give the answer but in printName2 it will give the empty obj => {}
+
+
+
+
+
+
+
+
+
+
+5. Does Call apply bind work for arrow functions?
+No it doesn’t because in arrow function we can’t use “this” keyword.
+Arrow function is a lexical scope and it uses the lexical scope of the
+ context in which it was called. In call() apply() and bind() we should
+  pass parameters which defines this.
+
+
+
+
+
+
+
+
+6. What does call apply bind do?
+Call/apply & bind woks same just slightly different way. They allow us to call a function with 
+given this context and arguments. They let us a call a function and have a access of another function or object.
+ We can borrow a methods of one object’s prototype and use it in another one. It’s like borrowing anothers properties and use it in anothers context.
+
+
+Exp:
+
+ 
+ 
+let name = { first_name: "laxmi", last_name: "dutta", }
+ 
+let printFullName = function(city,state){
+    console.log(`${this.first_name} ${this.last_name} is from ${city}, ${state}`)
+}
+ printFullName.call(name, 'sliguri', 'westbengal');
+  printFullName.apply(name, ['sliguri', 'westbengal']);
+  let output = printFullName.bind(name, 'sliguri', 'westbengal');
+  output()
+
+
+
+
+
+
+
+
+
+  
+7. What are closures?
+Function along with it’s lexical scope form closure. A closure gives the access of using the variable
+ from it’s parent’s function. Javascript is a single threaded language. So when a function evoked or executed after execution 
+ of the function it gets deleted from the call stack but with the help of the closure we can still have access of the properties or the values after
+  function gets remove from the call stack. When we write a function inside a function basically a child function inside the parent function it basically form a 
+  closure . So when we call parent function after execution of the parent function it gets remove from the call stack but when we call the child function after execution
+   of the parents function we can still have a access of the parent functions local scope. 
+Exp:
+
+
+function a(){
+    let x = 10;
+    function b(){
+        console.log(x)
+    }
+    return b
+}
+a()()
+
+ 
+Here we are accessing the variable from it’s parent. And b function is invoking outside the function a.
+
+
+
+
+
+
+ 
+8. Write a program to debounce a search bar?
+
+<body>
+    <nav class="navbar">
+        <input type="text" id="searchBox" placeholder="search" oninput="debouncing(getData,1000)">
+    </nav>
+    <div class="resultContainer"></div>
+    <div class="wrapper"></div>
+</body>
+
+
+<script>
+  var apikey = "87466dbe";
+  var resultContainer = document.querySelector('.resultContainer');
+
+
+
+
+  function getData() {
+        resultContainer.innerHTML = '';
+        let movie = document.getElementById('searchBox').value;
+        fetch(`http://www.omdbapi.com/?apikey=${apikey}&s=${movie}`)
+        .then((res)=>res.json())
+        .then((res)=>displayData(res.Search))
+        .catch((err)=>console.log(err))
+    }
+
+
+    function displayData(data){
+        data.map((item)=>{
+            console.log(item)
+            let title = document.createElement('div');
+            title.innerHTML = `<h3> ${item.Title} </h3>`;
+            resultContainer.append(title);
+        })
+    }
+
+    var timeOutId;
+    function debouncing(cb,delay){
+        if (timeOutId){
+            clearTimeout(timeOutId)
+        }
+         timeOutId = setTimeout(function(){
+            cb()
+        },delay)
+    }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9. create a custom method for an array called myMap?
+
+Array.prototype.myMap = function(callback){
+    let arr = [];
+    for (let i=0; i<this.length; i++){
+         arr.push(callback(this[i],i,this))
+    }
+    return arr
+}
+
+
+
+10. What is event bubbling?
+
+when an event happent to an element first it runs the event on it ( in which we have gave the event)
+then it's parent then it's grandparent to all ways up till it reaches the end of it. It happens on hairarcy
+
+<div class="grandparent">
+    <div class="parent">
+        <div class="child">
+        </div>
+    </div>
+</div>
+
+let grandparent = document.querySelector('.grandparent')
+.addEventListener('click', function(){
+    console.log('grandparent clicked')
+},false)
+
+let parent = document.querySelector('.parent')
+.addEventListener('click', function(){
+    console.log('parent clicked')
+},false)
+
+let child = document.querySelector('.child')
+.addEventListener('click', function(){
+    console.log('child clicked')
+},false)
+
+ if we click on child then output will be => child > parent > grandparent
+ if we click on parent then output will be => parent > child
+
+ it basically bubbling up till it reaches to the end 
+ if we want to stop at any point then we can use e.stopPropagation()
+
+
+
+ 11. What is event loop?
+
+
+
+
+
+
+
+11. What is event loop?
+      javascript has runtime model based on event loop. when we write any code in javasctipt
+      javascript engine get started. In javascript each and every code gets executed via call stack.
+
+      lets say i have a function call x 
+      function x(){
+          console.log('x function')
+      }
+      x();
+
+      console.log('after x function')
+
+      function y(){
+          setTimeout(function(){
+              console.log('from setTimeout function')
+          },1000)
+      }
+      y()
+
+      console.log('after y function')
+
+      as javasctipt is synchronous single threaded language. it can execute one line code at the time.
+      therefore x function will go to the call stack first and then it will execute, after console.log('after x function')
+      will go to the call stack and it will executed but in case of y function when javascript see that it will take time 
+      then it hands over to the web api/browser saying that take this for sometime when the time is over give i will excuted then
+      browser takes this and and time is over means after 1 second it will go to callback queue
+      now callback will give the function to callstack then it will executed. But while giving the y function to callback eventloop will always in each time it will check wether 
+      call stack is empty or not and if call stack is empty and that time queue has some operation to send to the call stack
+      then event loop will send that operation to the call stack otherwise it will wait untill call stack gets empty.
+
+
+
+
+
+
+
+12. Explain promises to a 5 year old, with simple examples
+
+ Js is a synchronous single threaded language. When a promiss made whether it will resolve of rejected 
+ and it will waits for the result. for Example : when a student study for the exam wether he will pass the 
+ exam of fail the exam if student pass the exam then student will get reward for that 
+ and if he fails then student will get punished or scollded.
+
+ in case of promises in javascript it behaves the same way if promises made then it will get resolve or rejected
+ if resolve then it will do some operation and if rejected it will do some operation or might give some error
+
+
+
+
+
+13. Write a function called sleep that will return a promise, if you do not provide a number to the function,
+ then it will return an error and goto the catch block
+
+
+function sleep(num){
+  return myPromise = new Promise((resolve, reject)=>{
+
+    
+    if (Number.isInteger(num)) resolve('success')
+    else reject('go to the catch block')
+
+})
+
+} 
+sleep('6').then((res)=>console.log(res)).catch((err)=>console.log(err))
+
+
+
+
+
+
+14. what does async await mean?
+
+The async function declared with a async keyword and await is the keyword that
+permitted with is. By using async await we can make our any function of code promis.
+We can say async await is the simplest way to make promise. It behaves as asyncronus.
+await keyword pauses the asynction function until promise fullfilled. (either get resolve or rejected).
+we can't use await keyword without async function. to use await function should be async.
+
+syntax : async function xyz(){ 
+    await(any promise)
+    catch(err){}
+}
+
+
+
+
+
+15. What does the 'this' keyword mean?
+
+'this' is a keyword which always referese to it's parent. Basically in javascript, everything made from object
+like global space itself is a object. if we write this inside a function then it will referese
+to window object because the function made from global object. 
+for example if we create a object from another object using prototype then if we write this 
+inside that child object then it will referese to the parent object from which it builds
+
+
+let obj = {
+    name : "laxmi",
+    city : "city",
+
+    printName : function(){
+        console.log(this)
+    } 
+
+}
+
+obj.printName()
+here this referese to the obj which is it's parent object. incase of the function which is globally 
+it will referese to window object . Whenver js code is runnig the global objece is created
+where our all code lies. 
+
+
+
+16. What are classes? what are getters and setters?
+
+
+Class works similiar to the constructor function. In es6 classes were introduce.
+it's basically a template of making objects. 
+
+to create a class we need to write class then the class name and inside that we need to write the constructor function
+in the end we need the constructor function. classes were introduce to make the java developer at home.
+in java java developers use classes a lot like in javascript we use function a lot.
+and also classes has the sugar syntax. 
+
+syntax  : 
+ 
+class Person{
+    constructor(n,a){
+        this.name = n;
+        this.age = a
+    }
+    showName = function(){
+        console.log(this.name)
+    }
+}
+
+const p1 = new Person('laxmi',20);
+console.log(p1)
+p1.showName()
+
+
+
+
+getters and setters :
+
+getter and setters plays important roles in retrieving the value of a variable and 
+updating the value of a variable outside an object. setters is for updating the value of a
+variable where getters is to read the value of a variable.
+
+
+let obj = { 
+    name : "laxmi"
+
+    get showName(){
+        console.log(this.name)
+    }
+}
+
+obj.showName // laxmi
+obj.showName() // error
+
+to access the getter method get keyword used.
+
+
+let obj = { 
+    name : "laxmi"
+
+    set changeName(newName){
+        this.name = newName
+    }
+}
+
+
+
+obj.changeName = 'monica' 
+
+setter must have exactly one parameter. we use set to access the setter method
+
+
+
+
+
+
+
+
+17. How do you declare private and static variables in classes
+
+
+
+private => 
+class Person{
+    
+    #pin = 123535; // private variable
+    #getPIN(){ // private method
+        return this.pin
+    }
+    
+    
+}
+
+const p1 = new Person('laxmi',20);
+console.log(p1.pin) // undefined
+
+
+
+
+
+static =>
+
+ class Car {
+     static name = "audi"
+     printName = function (){
+         console.log(Car.name)
+     }
+ }
+
+let newCar = new Car();
+newCar.printName()
+
+
+
+
+
+
+
+
+18. Create a Calculator class, it should be able to add, reduce multiply and
+ divide. it should have a value getter, and that should return final output. 
+ keep the history of changes made as well, and keep that private, and a user 
+ should be able to see previous changes made to the value
+
+
+
+
+
+ class Calculator {
+     constructor(v1,v2){
+         this.value1 = v1;
+         this.value2 = v2;
+     }
+
+      get addValues(){
+         console.log(this.value1 + this.value2)
+     }
+      get multiply(){
+         console.log(this.value1 * this.value2)
+     }
+      get devide(){
+         console.log(this.value1 / this.value2)
+     }
+ }
+
+ 
+ const cal = new Calculator(2,3)
+ cal.addValues
+ cal.multiply
+ cal.devide
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+19. What is currying?
+
+when a function instead of taking all arguments at once it takes a argument
+which returns a function which takes another argument which returns another function 
+and the proces keeps on happen untill all arguments are completed. 
+
+example : 
+
+
+function x(a){
+    return function (b){
+        return function (c){
+            return a+b+c
+        }
+    }
+}
+
+console.log(x(1)(2)(3))
+
+
+
+
+
+
+
+
+
+20. Write a program to flatten an array.
+
+const input= [ 1, [ 2, 3 ], [ 3 ], [ [ [ 5]],  6]  ];
+
+
+function mainFunction(arr){
+
+    let ans = []
+    function recursion(arr){
+
+        for (let i=0; i<arr.length; i++){
+            if (!Array.isArray(arr[i])){
+                ans.push(arr[i])
+            }else{
+                recursion(arr[i])
+            }
+        }
+    }
+    recursion(arr)
+    console.log(ans)
+}
+
+mainFunction(input)
